@@ -13,6 +13,8 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15_000);
 
   try {
     const res = await fetch(`${TWENTY_URL}/api`, {
@@ -22,14 +24,18 @@ export async function POST(req: Request) {
         'Authorization': `Bearer ${TWENTY_API_KEY}`,
       },
       body: JSON.stringify(body),
+      signal: controller.signal,
     });
 
     const data = await res.json();
     return Response.json(data);
   } catch (err) {
+    const isTimeout = (err as Error).name === 'AbortError';
     return Response.json(
-      { error: `Failed to reach Twenty CRM: ${(err as Error).message}` },
-      { status: 502 }
+      { error: isTimeout ? 'Twenty CRM timed out after 15s' : `Failed to reach Twenty CRM: ${(err as Error).message}` },
+      { status: isTimeout ? 504 : 502 }
     );
+  } finally {
+    clearTimeout(timeout);
   }
 }

@@ -257,7 +257,7 @@ export default function ContactsPage() {
                     <td key={j} className="px-4 py-3">
                       <div
                         className="h-4 rounded animate-pulse"
-                        style={{ background: 'var(--border)', width: j === 5 ? '60px' : `${60 + Math.random() * 30}%` }}
+                        style={{ background: 'var(--border)', width: j === 5 ? '60px' : ['75%','55%','65%','80%','45%'][j] }}
                       />
                     </td>
                   ))}

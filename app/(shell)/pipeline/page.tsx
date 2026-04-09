@@ -265,7 +265,7 @@ export default function PipelinePage() {
                 <tr key={i} style={{ borderBottom: '1px solid var(--border)' }}>
                   {Array.from({ length: 6 }).map((_, j) => (
                     <td key={j} className="px-4 py-3">
-                      <div className="h-4 rounded animate-pulse" style={{ background: 'var(--border)', width: `${50 + Math.random() * 40}%` }} />
+                      <div className="h-4 rounded animate-pulse" style={{ background: 'var(--border)', width: ['70%','55%','40%','60%','45%','32px'][j] }} />
                     </td>
                   ))}
                 </tr>
