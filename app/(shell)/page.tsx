@@ -1,24 +1,108 @@
 'use client';
-import { Users, Zap, Mail, TrendingUp, ArrowUpRight, Sparkles, Command } from 'lucide-react';
+import {
+  Users, Zap, Mail, TrendingUp, ArrowUpRight, DollarSign,
+  Eye, MousePointer, Star, Plus, Phone, FileText, CreditCard,
+  Calendar, BarChart2,
+} from 'lucide-react';
 import { getUser } from '@/lib/auth';
-import { BRAND } from '@/lib/config';
+import Link from 'next/link';
 
-const STATS = [
-  { label: 'Total Contacts',      value: '10,159', change: '+22K imported', icon: Users,       from: 'from-pink-400',   to: 'to-rose-500',   bg: 'bg-pink-50',   color: 'text-pink-600' },
-  { label: 'Pipeline Deals',      value: '—',       change: 'Add via CRM',  icon: Zap,         from: 'from-orange-400', to: 'to-amber-500',  bg: 'bg-orange-50', color: 'text-orange-600' },
-  { label: 'Active Campaigns',    value: '2',       change: 'AI + CRM tracks', icon: Mail,     from: 'from-purple-400', to: 'to-violet-500', bg: 'bg-purple-50', color: 'text-purple-600' },
-  { label: 'Open Opportunities',  value: '—',       change: 'Coming soon',  icon: TrendingUp,  from: 'from-blue-400',   to: 'to-cyan-500',   bg: 'bg-blue-50',   color: 'text-blue-600' },
+// ── KPI Cards ──────────────────────────────────────────────────────
+const KPIS = [
+  {
+    label: 'Total Contacts',
+    value: '10,159',
+    delta: '+22K imported',
+    deltaUp: true,
+    icon: Users,
+    color: '#F472B6',
+    bg: 'rgba(244,114,182,0.08)',
+  },
+  {
+    label: 'Active Deals',
+    value: '—',
+    delta: 'Add via Pipeline',
+    deltaUp: null,
+    icon: Zap,
+    color: '#F97316',
+    bg: 'rgba(249,115,22,0.08)',
+  },
+  {
+    label: 'Pipeline Value',
+    value: '—',
+    delta: 'Add deals to track',
+    deltaUp: null,
+    icon: DollarSign,
+    color: '#8B5CF6',
+    bg: 'rgba(139,92,246,0.08)',
+  },
+  {
+    label: 'MTD Revenue',
+    value: '—',
+    delta: 'Connect billing',
+    deltaUp: null,
+    icon: TrendingUp,
+    color: '#10B981',
+    bg: 'rgba(16,185,129,0.08)',
+  },
+  {
+    label: 'Emails Sent',
+    value: '2,400',
+    delta: 'AEC campaign active',
+    deltaUp: true,
+    icon: Mail,
+    color: '#3B82F6',
+    bg: 'rgba(59,130,246,0.08)',
+  },
+  {
+    label: 'Open Rate',
+    value: '—',
+    delta: 'Awaiting data',
+    deltaUp: null,
+    icon: Eye,
+    color: '#EC4899',
+    bg: 'rgba(236,72,153,0.08)',
+  },
+  {
+    label: 'Click Rate',
+    value: '—',
+    delta: 'Awaiting data',
+    deltaUp: null,
+    icon: MousePointer,
+    color: '#F59E0B',
+    bg: 'rgba(245,158,11,0.08)',
+  },
+  {
+    label: 'Active Campaigns',
+    value: '2',
+    delta: 'AEC + Telco lists',
+    deltaUp: true,
+    icon: Star,
+    color: '#06B6D4',
+    bg: 'rgba(6,182,212,0.08)',
+  },
 ];
 
+// ── Quick Actions ──────────────────────────────────────────────────
+const QUICK_ACTIONS = [
+  { label: 'Add Contact',     href: '/contacts',   icon: Users,      color: '#F472B6' },
+  { label: 'Create Deal',     href: '/pipeline',   icon: Zap,        color: '#F97316' },
+  { label: 'New Campaign',    href: '/campaigns',  icon: Mail,       color: '#8B5CF6' },
+  { label: 'Schedule Call',   href: '/calendar',   icon: Calendar,   color: '#10B981' },
+  { label: 'Create Invoice',  href: '/billing',    icon: CreditCard, color: '#3B82F6' },
+  { label: 'New Contract',    href: '/contracts',  icon: FileText,   color: '#EC4899' },
+];
+
+// ── Module Links ───────────────────────────────────────────────────
 const MODULES = [
-  { title: 'Contacts & CRM',    href: '/contacts',   desc: 'Manage contacts, companies, and deals',       from: 'from-pink-400',    to: 'to-rose-500' },
-  { title: 'Pipeline',          href: '/pipeline',   desc: 'Visualize and move deals through stages',     from: 'from-orange-400',  to: 'to-amber-500' },
-  { title: 'Email Campaigns',   href: '/campaigns',  desc: 'Create and send email sequences to leads',    from: 'from-purple-400',  to: 'to-violet-500' },
-  { title: 'Team Chat',         href: '/chat',       desc: 'Communicate with your team in real time',     from: 'from-blue-400',    to: 'to-cyan-500' },
-  { title: 'Video Calls',       href: '/calls',      desc: 'Host and join calls — no account needed',     from: 'from-teal-400',    to: 'to-green-500' },
-  { title: 'Contracts',         href: '/contracts',  desc: 'Send, sign, and manage e-signature docs',     from: 'from-indigo-400',  to: 'to-blue-500' },
-  { title: 'Billing',           href: '/billing',    desc: 'Invoices, payments, and client subscriptions',from: 'from-emerald-400', to: 'to-teal-500' },
-  { title: 'Knowledge Base',    href: '/docs',       desc: 'Docs, playbooks, and team wikis',             from: 'from-rose-400',    to: 'to-pink-500' },
+  { label: 'Contacts & CRM', href: '/contacts',  icon: Users,    desc: 'Manage contacts, companies, deals', color: '#F472B6' },
+  { label: 'Pipeline',        href: '/pipeline',  icon: Zap,      desc: 'Visualize deals through stages',    color: '#F97316' },
+  { label: 'Campaigns',       href: '/campaigns', icon: Mail,     desc: 'Email sequences & list management', color: '#8B5CF6' },
+  { label: 'Calls',           href: '/calls',     icon: Phone,    desc: 'Host & join video meetings',        color: '#10B981' },
+  { label: 'Contracts',       href: '/contracts', icon: FileText, desc: 'E-signature document workflows',    color: '#3B82F6' },
+  { label: 'Billing',         href: '/billing',   icon: CreditCard, desc: 'Invoices, payments, subscriptions', color: '#EC4899' },
+  { label: 'Analytics',       href: '/reports',   icon: BarChart2, desc: 'Revenue & performance reporting',  color: '#F59E0B' },
+  { label: 'Calendar',        href: '/calendar',  icon: Calendar, desc: 'Meetings, scheduling & follow-ups', color: '#06B6D4' },
 ];
 
 export default function DashboardPage() {
@@ -27,85 +111,124 @@ export default function DashboardPage() {
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
   return (
-    <div className="h-full overflow-y-auto bg-gray-50">
-      {/* Hero header */}
-      <div className="bg-white border-b border-gray-100 px-6 py-5">
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 className="text-xl font-semibold text-gray-900">
-              {greeting}{user?.name ? `, ${user.name.split(' ')[0]}` : ''} 👋
-            </h1>
-            <p className="text-sm text-gray-500 mt-0.5">{BRAND.name} — your all-in-one RevOps platform</p>
-          </div>
-          <div className="hidden sm:flex items-center gap-2 text-xs text-gray-400 bg-gray-50 border border-gray-100 rounded-lg px-3 py-2">
-            <Command size={11} />
-            <span>⌘K to search · ⌘/ for AI</span>
-          </div>
+    <div className="h-full overflow-y-auto p-6 space-y-6">
+      {/* Page header */}
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-xl font-bold" style={{ color: 'var(--text)' }}>
+            {greeting}{user?.name ? `, ${user.name.split(' ')[0]}` : ''} 👋
+          </h1>
+          <p className="text-[13px] mt-0.5" style={{ color: 'var(--text-muted)' }}>
+            Here&apos;s your RevOps snapshot for today.
+          </p>
         </div>
+        <Link
+          href="/ai"
+          className="btn-secondary hidden sm:flex items-center gap-2 text-xs"
+        >
+          <span className="gb-gradient-text font-semibold">Ask Bolt AI</span>
+        </Link>
       </div>
 
-      <div className="p-6 space-y-6">
-        {/* Stats */}
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          {STATS.map(({ label, value, change, icon: Icon, from, to, bg, color }) => (
-            <div key={label} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-shadow">
-              <div className={`inline-flex p-2 rounded-xl ${bg} mb-3`}>
-                <Icon size={16} className={color} />
+      {/* KPI Grid */}
+      <div>
+        <h2 className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-xs)' }}>
+          Key Metrics
+        </h2>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {KPIS.map(({ label, value, delta, deltaUp, icon: Icon, color, bg }) => (
+            <div
+              key={label}
+              className="card p-4 hover:shadow-md transition-shadow cursor-default"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div
+                  className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0"
+                  style={{ background: bg }}
+                >
+                  <Icon size={15} style={{ color }} />
+                </div>
+                {deltaUp === true && (
+                  <ArrowUpRight size={13} className="text-emerald-500 mt-0.5" />
+                )}
               </div>
-              <div className="text-2xl font-bold text-gray-900 tabular-nums">{value}</div>
-              <div className="text-xs font-medium text-gray-600 mt-0.5">{label}</div>
-              <div className={`text-[10px] mt-1 bg-gradient-to-r ${from} ${to} bg-clip-text text-transparent font-medium`}>
-                {change}
-              </div>
+              <p className="text-2xl font-bold tabular-nums" style={{ color: 'var(--text)' }}>
+                {value}
+              </p>
+              <p className="text-[11px] font-medium mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                {label}
+              </p>
+              <p className="text-[10px] mt-1 font-medium" style={{ color }}>
+                {delta}
+              </p>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* AI prompt card */}
-        <div className="bg-gradient-to-r from-pink-500 to-orange-400 rounded-2xl p-5 text-white shadow-lg">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-              <Sparkles size={20} className="text-white" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm">Goldbolts AI is ready</p>
-              <p className="text-xs text-white/80 mt-0.5">
-                Ask about your pipeline, draft campaign copy, write follow-ups, or get RevOps advice — powered by Claude.
-              </p>
-            </div>
-            <button
-              onClick={() => {
-                const event = new KeyboardEvent('keydown', { key: '/', metaKey: true, ctrlKey: false, bubbles: true });
-                window.dispatchEvent(event);
+      {/* Quick Actions */}
+      <div>
+        <h2 className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-xs)' }}>
+          Quick Actions
+        </h2>
+        <div className="flex flex-wrap gap-2">
+          {QUICK_ACTIONS.map(({ label, href, icon: Icon, color }) => (
+            <Link
+              key={href}
+              href={href}
+              className="flex items-center gap-2 px-3 py-2 rounded text-[12px] font-semibold transition-all hover:shadow-sm border"
+              style={{
+                background: 'var(--bg-card)',
+                borderColor: 'var(--border)',
+                color: 'var(--text)',
               }}
-              className="flex-shrink-0 bg-white/20 hover:bg-white/30 transition-colors text-white text-xs font-semibold px-3 py-1.5 rounded-lg"
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = color;
+                (e.currentTarget as HTMLAnchorElement).style.color = color;
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border)';
+                (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text)';
+              }}
             >
-              Open AI ⌘/
-            </button>
-          </div>
+              <Plus size={12} style={{ color }} />
+              {label}
+            </Link>
+          ))}
         </div>
+      </div>
 
-        {/* Module grid */}
-        <div>
-          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">All modules</h2>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {MODULES.map(({ title, href, desc, from, to }) => (
-              <a
-                key={href}
-                href={href}
-                className="group bg-white rounded-2xl border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all hover:-translate-y-0.5"
+      {/* Modules */}
+      <div>
+        <h2 className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-xs)' }}>
+          All Modules
+        </h2>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {MODULES.map(({ label, href, icon: Icon, desc, color }) => (
+            <Link
+              key={href}
+              href={href}
+              className="card p-4 hover:shadow-md transition-all group"
+              onMouseEnter={e => (e.currentTarget.style.borderColor = color + '40')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+            >
+              <div
+                className="w-8 h-8 rounded flex items-center justify-center mb-3"
+                style={{ background: color + '12' }}
               >
-                <div className={`h-1 w-10 rounded-full bg-gradient-to-r ${from} ${to} mb-3`} />
-                <div className="flex items-start justify-between gap-2">
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-pink-600 transition-colors leading-tight">
-                    {title}
-                  </h3>
-                  <ArrowUpRight size={13} className="text-gray-300 group-hover:text-pink-400 transition-colors flex-shrink-0 mt-0.5" />
-                </div>
-                <p className="text-xs text-gray-500 mt-1 leading-relaxed">{desc}</p>
-              </a>
-            ))}
-          </div>
+                <Icon size={15} style={{ color }} />
+              </div>
+              <div className="flex items-start justify-between gap-1">
+                <p className="text-[13px] font-semibold leading-tight" style={{ color: 'var(--text)' }}>
+                  {label}
+                </p>
+                <ArrowUpRight size={12} className="flex-shrink-0 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color }} />
+              </div>
+              <p className="text-[11px] mt-1 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                {desc}
+              </p>
+            </Link>
+          ))}
         </div>
       </div>
     </div>

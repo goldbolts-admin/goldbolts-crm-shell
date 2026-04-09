@@ -6,22 +6,17 @@ export default function PipelinePage() {
     <ServicePortal
       icon="⚡"
       title="Sales Pipeline"
-      description="See every deal at a glance. Drag and drop deals through stages, set follow-up dates, and never let a lead slip through the cracks."
+      description="Visualize deals, drag them through stages, and never let a lead slip through."
       features={[
-        'View all deals on a visual board',
+        'View all deals on a Kanban board',
         'Drag deals from stage to stage',
-        'Set deal values and close dates',
+        'Set deal values and expected close dates',
         'Get reminders for follow-ups',
-        'See your pipeline at a glance',
+        'Track pipeline velocity and conversion',
       ]}
       href={`${TOOLS.crm}/objects/opportunities`}
       status="online"
-      color={{
-        from: 'from-orange-400',
-        to: 'to-amber-500',
-        bg: 'bg-orange-50',
-        text: 'text-orange-500',
-      }}
+      color="#F97316"
     />
   );
 }

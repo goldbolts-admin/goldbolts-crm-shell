@@ -1,62 +1,98 @@
 'use client';
-import { useState } from 'react';
 import { getUser } from '@/lib/auth';
 import { BRAND, TOOLS } from '@/lib/config';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, User, Globe, Key } from 'lucide-react';
 
 const TOOL_LINKS = [
-  { label: 'CRM (Twenty)', url: TOOLS.crm, desc: 'Manage your CRM settings, users, and workspaces' },
-  { label: 'Campaigns (Listmonk)', url: TOOLS.campaigns, desc: 'Email list settings, SMTP, templates' },
-  { label: 'Chat (Mattermost)', url: TOOLS.chat, desc: 'Team channels, integrations, admin' },
-  { label: 'Contracts (DocuSeal)', url: TOOLS.contracts, desc: 'Template settings and signing workflows' },
-  { label: 'Billing (Invoice Ninja)', url: TOOLS.billing, desc: 'Company settings, payment gateways, plans' },
-  { label: 'Docs (Outline)', url: TOOLS.docs, desc: 'Knowledge base settings and permissions' },
+  { label: 'Twenty CRM', desc: 'CRM settings, users, workspaces', url: TOOLS.crm, color: '#F472B6' },
+  { label: 'Listmonk', desc: 'Email list settings, SMTP, templates', url: `${TOOLS.campaigns}/admin`, color: '#8B5CF6' },
+  { label: 'Mattermost', desc: 'Team channels, integrations, admin', url: TOOLS.chat, color: '#3B82F6' },
+  { label: 'DocuSeal', desc: 'Template settings and signing workflows', url: TOOLS.contracts, color: '#6366F1' },
+  { label: 'Invoice Ninja', desc: 'Company settings, payment gateways', url: TOOLS.billing, color: '#10B981' },
+  { label: 'Outline', desc: 'Knowledge base settings and permissions', url: TOOLS.docs, color: '#EC4899' },
 ];
 
 export default function SettingsPage() {
   const user = getUser();
 
   return (
-    <div className="h-full overflow-y-auto bg-gray-50 p-6">
-      <h1 className="text-xl font-semibold text-gray-900 mb-1">Settings</h1>
-      <p className="text-sm text-gray-500 mb-6">Manage your account and connected tools.</p>
+    <div className="h-full overflow-y-auto p-6 space-y-6 max-w-2xl">
+      <div>
+        <h1 className="text-xl font-bold" style={{ color: 'var(--text)' }}>Settings</h1>
+        <p className="text-[13px] mt-0.5" style={{ color: 'var(--text-muted)' }}>
+          Manage your account and connected tools.
+        </p>
+      </div>
 
-      {/* Account info */}
-      <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 mb-4">
-        <h2 className="text-sm font-semibold text-gray-700 mb-3">Account</h2>
-        <div className="space-y-2 text-sm">
-          <div className="flex justify-between">
-            <span className="text-gray-500">Name</span>
-            <span className="text-gray-900">{user?.name ?? '—'}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-500">Email</span>
-            <span className="text-gray-900">{user?.email ?? '—'}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-500">Brand</span>
-            <span className="text-gray-900">{BRAND.name}</span>
-          </div>
+      {/* Account */}
+      <section className="card p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <User size={14} style={{ color: 'var(--text-muted)' }} />
+          <h2 className="text-[13px] font-semibold" style={{ color: 'var(--text)' }}>Account</h2>
+        </div>
+        <div className="space-y-3">
+          {[
+            { label: 'Name', value: user?.name ?? '—' },
+            { label: 'Email', value: user?.email ?? '—' },
+            { label: 'Role', value: 'Admin' },
+          ].map(({ label, value }) => (
+            <div key={label} className="flex items-center justify-between py-2 border-b last:border-0" style={{ borderColor: 'var(--border)' }}>
+              <span className="text-[12px] font-medium" style={{ color: 'var(--text-muted)' }}>{label}</span>
+              <span className="text-[13px] font-semibold" style={{ color: 'var(--text)' }}>{value}</span>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Tool admin links */}
-      <section className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <h2 className="text-sm font-semibold text-gray-700 mb-3">Connected tools</h2>
+      {/* Brand */}
+      <section className="card p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <Globe size={14} style={{ color: 'var(--text-muted)' }} />
+          <h2 className="text-[13px] font-semibold" style={{ color: 'var(--text)' }}>Platform</h2>
+        </div>
+        <div className="space-y-3">
+          {[
+            { label: 'Brand', value: BRAND.name },
+            { label: 'Domain', value: BRAND.domain },
+            { label: 'Plan', value: '$1,497/mo RevOps' },
+          ].map(({ label, value }) => (
+            <div key={label} className="flex items-center justify-between py-2 border-b last:border-0" style={{ borderColor: 'var(--border)' }}>
+              <span className="text-[12px] font-medium" style={{ color: 'var(--text-muted)' }}>{label}</span>
+              <span className="text-[13px] font-semibold" style={{ color: 'var(--text)' }}>{value}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Connected tools */}
+      <section className="card p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <Key size={14} style={{ color: 'var(--text-muted)' }} />
+          <h2 className="text-[13px] font-semibold" style={{ color: 'var(--text)' }}>Connected Tools</h2>
+        </div>
         <div className="space-y-1">
-          {TOOL_LINKS.map(({ label, url, desc }) => (
+          {TOOL_LINKS.map(({ label, desc, url, color }) => (
             <a
               key={url}
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-gray-50 group transition-colors"
+              className="flex items-center justify-between py-2.5 px-3 rounded-md transition-colors group"
+              style={{ color: 'var(--text)' }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg-card-hover)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
             >
-              <div>
-                <div className="text-sm font-medium text-gray-800 group-hover:text-pink-600 transition-colors">{label}</div>
-                <div className="text-xs text-gray-400">{desc}</div>
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ background: color }}
+                />
+                <div>
+                  <p className="text-[13px] font-semibold">{label}</p>
+                  <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{desc}</p>
+                </div>
               </div>
-              <ExternalLink size={14} className="text-gray-300 group-hover:text-pink-400 transition-colors flex-shrink-0 ml-3" />
+              <ExternalLink size={12} className="flex-shrink-0" style={{ color: 'var(--text-xs)' }} />
             </a>
           ))}
         </div>

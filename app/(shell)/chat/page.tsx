@@ -5,22 +5,17 @@ export default function ChatPage() {
     <ServicePortal
       icon="💬"
       title="Team Chat"
-      description="Real-time messaging for your whole team. Share updates, coordinate on deals, and keep everyone in sync — all in one place."
+      description="Real-time messaging for your whole team — channels, direct messages, and file sharing."
       features={[
         'Message your team in real time',
-        'Create channels for different projects',
+        'Create channels for projects or departments',
         'Share files and images',
         'Get notified about important updates',
-        'Works on phone and desktop',
+        'Works on desktop and mobile',
       ]}
       href="https://chat.goldbolts.org"
       status="setting-up"
-      color={{
-        from: 'from-blue-400',
-        to: 'to-cyan-500',
-        bg: 'bg-blue-50',
-        text: 'text-blue-500',
-      }}
+      color="#3B82F6"
     />
   );
 }

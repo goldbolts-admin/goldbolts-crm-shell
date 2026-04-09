@@ -5,11 +5,11 @@ import { ShellProvider } from '@/components/ShellProvider';
 export default function ShellLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthGuard>
-      <ShellProvider>
-        <AppShell>
+      <AppShell>
+        <ShellProvider>
           {children}
-        </AppShell>
-      </ShellProvider>
+        </ShellProvider>
+      </AppShell>
     </AuthGuard>
   );
 }

@@ -8,83 +8,77 @@ interface ServicePortalProps {
   features: string[];
   href: string;
   status?: 'online' | 'setting-up';
-  color: {
-    from: string;
-    to: string;
-    bg: string;
-    text: string;
-  };
+  color: string;
 }
 
 export function ServicePortal({
-  icon,
-  title,
-  description,
-  features,
-  href,
-  status = 'online',
-  color,
+  icon, title, description, features, href, status = 'online', color,
 }: ServicePortalProps) {
   return (
-    <div className="h-full overflow-y-auto bg-gray-50">
-      <div className="max-w-lg mx-auto px-6 py-12 flex flex-col items-center text-center gap-6">
-        {/* Icon */}
-        <div
-          className={`w-24 h-24 rounded-3xl flex items-center justify-center text-5xl shadow-lg bg-gradient-to-br ${color.from} ${color.to}`}
-        >
-          {icon}
-        </div>
-
-        {/* Title + status */}
-        <div>
-          <div className="flex items-center justify-center gap-2 mb-1">
-            {status === 'online' ? (
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2.5 py-0.5">
-                <CheckCircle2 size={11} />
-                Online
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2.5 py-0.5">
-                <Clock size={11} />
-                Setting up
-              </span>
-            )}
+    <div className="h-full overflow-y-auto flex items-start justify-center p-8">
+      <div className="w-full max-w-md space-y-5">
+        {/* Icon + title */}
+        <div className="flex items-start gap-4">
+          <div
+            className="w-14 h-14 rounded-xl flex items-center justify-center text-3xl flex-shrink-0"
+            style={{ background: color + '15', border: `1px solid ${color}30` }}
+          >
+            {icon}
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mt-2">{title}</h1>
-          <p className="text-sm text-gray-500 mt-2 leading-relaxed max-w-sm">{description}</p>
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              {status === 'online' ? (
+                <span className="badge badge-green">Online</span>
+              ) : (
+                <span className="badge badge-amber">Setting up</span>
+              )}
+            </div>
+            <h1 className="text-xl font-bold" style={{ color: 'var(--text)' }}>{title}</h1>
+            <p className="text-[13px] mt-1 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+              {description}
+            </p>
+          </div>
         </div>
 
-        {/* Features list */}
-        <div className="w-full bg-white rounded-2xl border border-gray-100 shadow-sm p-5 text-left">
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">What you can do here</p>
+        {/* Features */}
+        <div className="card p-4">
+          <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-xs)' }}>
+            What you can do here
+          </p>
           <ul className="space-y-2">
             {features.map(f => (
-              <li key={f} className="flex items-start gap-2.5 text-sm text-gray-700">
-                <CheckCircle2 size={15} className={`${color.text} flex-shrink-0 mt-0.5`} />
+              <li key={f} className="flex items-start gap-2.5 text-[13px]" style={{ color: 'var(--text-muted)' }}>
+                <CheckCircle2 size={14} className="flex-shrink-0 mt-0.5" style={{ color }} />
                 {f}
               </li>
             ))}
           </ul>
         </div>
 
-        {/* CTA button */}
+        {/* CTA */}
         {status === 'online' ? (
           <a
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl text-white font-semibold text-sm bg-gradient-to-r ${color.from} ${color.to} shadow-lg hover:shadow-xl hover:scale-105 transition-all`}
+            className="flex items-center justify-center gap-2 py-3 px-6 rounded-lg text-[13px] font-semibold text-white transition-all hover:opacity-90 w-full"
+            style={{ background: `linear-gradient(135deg, ${color}, ${color}cc)` }}
           >
-            <ExternalLink size={16} />
+            <ExternalLink size={14} />
             Open {title}
           </a>
         ) : (
-          <div className="flex flex-col items-center gap-2">
-            <div className={`inline-flex items-center gap-2.5 px-8 py-3.5 rounded-2xl text-white font-semibold text-sm bg-gradient-to-r ${color.from} ${color.to} shadow-lg opacity-50 cursor-not-allowed`}>
-              <Clock size={16} />
+          <div className="text-center">
+            <div
+              className="inline-flex items-center gap-2 py-2.5 px-5 rounded-lg text-[13px] font-semibold text-white opacity-50 cursor-not-allowed"
+              style={{ background: color }}
+            >
+              <Clock size={14} />
               Coming Soon
             </div>
-            <p className="text-xs text-gray-400">We&apos;re setting this up for you. Check back soon!</p>
+            <p className="text-[11px] mt-2" style={{ color: 'var(--text-xs)' }}>
+              We&apos;re setting this up. Check back soon.
+            </p>
           </div>
         )}
       </div>

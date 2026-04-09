@@ -6,7 +6,7 @@ export default function ContactsPage() {
     <ServicePortal
       icon="👥"
       title="Contacts & CRM"
-      description="Manage all your contacts, companies, and relationships. See every conversation, deal, and touchpoint in one place."
+      description="Manage all your contacts, companies, and relationships in one place."
       features={[
         'Add and organize contacts and companies',
         'See full contact history and notes',
@@ -16,12 +16,7 @@ export default function ContactsPage() {
       ]}
       href={`${TOOLS.crm}/objects/people`}
       status="online"
-      color={{
-        from: 'from-pink-400',
-        to: 'to-rose-500',
-        bg: 'bg-pink-50',
-        text: 'text-pink-500',
-      }}
+      color="#F472B6"
     />
   );
 }

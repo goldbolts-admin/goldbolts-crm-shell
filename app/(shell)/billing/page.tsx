@@ -6,22 +6,17 @@ export default function BillingPage() {
     <ServicePortal
       icon="💳"
       title="Billing"
-      description="Send professional invoices, track payments, and manage client subscriptions — all in one easy dashboard."
+      description="Send invoices, track payments, and manage client subscriptions in one dashboard."
       features={[
-        'Create and send invoices in seconds',
+        'Create and send professional invoices',
         'Track who has paid and who hasn\'t',
-        'Set up recurring billing for clients',
+        'Set up recurring billing for retainers',
         'Accept online payments',
         'Download financial reports',
       ]}
       href={TOOLS.billing}
       status="online"
-      color={{
-        from: 'from-emerald-400',
-        to: 'to-teal-500',
-        bg: 'bg-emerald-50',
-        text: 'text-emerald-500',
-      }}
+      color="#10B981"
     />
   );
 }

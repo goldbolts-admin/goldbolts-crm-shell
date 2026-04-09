@@ -2,180 +2,250 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  Users, BarChart2, Mail, MessageSquare, Video,
+  LayoutDashboard, Users, Zap, Mail, MessageSquare, Video,
   FileText, CreditCard, BookOpen, Settings, LogOut,
-  Zap, ChevronLeft, ChevronRight, Command, X,
+  ChevronLeft, ChevronRight, X, Calendar, Sparkles,
 } from 'lucide-react';
-import { Logo } from './Logo';
 import { logout, getUser } from '@/lib/auth';
 import clsx from 'clsx';
 import { useState } from 'react';
 
-const NAV = [
-  { label: 'Dashboard',  href: '/',           icon: BarChart2 },
-  { label: 'Contacts',   href: '/contacts',   icon: Users },
-  { label: 'Pipeline',   href: '/pipeline',   icon: Zap },
-  { label: 'Campaigns',  href: '/campaigns',  icon: Mail },
-  { label: 'Chat',       href: '/chat',       icon: MessageSquare },
-  { label: 'Calls',      href: '/calls',      icon: Video },
-  { label: 'Contracts',  href: '/contracts',  icon: FileText },
-  { label: 'Billing',    href: '/billing',    icon: CreditCard },
-  { label: 'Docs',       href: '/docs',       icon: BookOpen },
-  { label: 'Settings',   href: '/settings',   icon: Settings },
+const SECTIONS = [
+  {
+    label: 'Overview',
+    items: [
+      { label: 'Dashboard', href: '/',    icon: LayoutDashboard },
+      { label: 'Bolt AI',   href: '/ai',  icon: Sparkles },
+    ],
+  },
+  {
+    label: 'CRM',
+    items: [
+      { label: 'Contacts',   href: '/contacts',   icon: Users },
+      { label: 'Pipeline',   href: '/pipeline',   icon: Zap },
+      { label: 'Calendar',   href: '/calendar',   icon: Calendar },
+      { label: 'Campaigns',  href: '/campaigns',  icon: Mail },
+    ],
+  },
+  {
+    label: 'Tools',
+    items: [
+      { label: 'Calls',      href: '/calls',      icon: Video },
+      { label: 'Chat',       href: '/chat',       icon: MessageSquare },
+      { label: 'Contracts',  href: '/contracts',  icon: FileText },
+      { label: 'Billing',    href: '/billing',    icon: CreditCard },
+      { label: 'Docs',       href: '/docs',       icon: BookOpen },
+    ],
+  },
+  {
+    label: 'System',
+    items: [
+      { label: 'Settings',   href: '/settings',   icon: Settings },
+    ],
+  },
 ];
-
-function UserAvatar({ name, collapsed }: { name?: string; collapsed: boolean }) {
-  const initials = name
-    ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
-    : 'GB';
-  return (
-    <div className={clsx('flex items-center gap-2.5 min-w-0', collapsed && 'justify-center')}>
-      <div className="w-7 h-7 rounded-lg gb-gradient flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0">
-        {initials}
-      </div>
-      {!collapsed && (
-        <div className="min-w-0">
-          <p className="text-xs font-semibold text-gray-700 truncate">{name || 'Admin'}</p>
-          <p className="text-[10px] text-gray-400">goldbolts.org</p>
-        </div>
-      )}
-    </div>
-  );
-}
 
 interface SidebarProps {
   mobileOpen?: boolean;
   onMobileClose?: () => void;
 }
 
-export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
+function NavContent({
+  collapsed,
+  setCollapsed,
+  onMobileClose,
+}: {
+  collapsed: boolean;
+  setCollapsed: (v: boolean) => void;
+  onMobileClose?: () => void;
+}) {
   const path = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
   const user = getUser();
+  const initials = user?.name
+    ? user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
+    : 'GB';
 
-  const sidebarContent = (
-    <>
-      {/* Logo */}
-      <div className={clsx(
-        'flex items-center border-b border-gray-100 flex-shrink-0',
-        collapsed ? 'px-3 py-4 justify-center' : 'px-4 py-4 justify-between'
-      )}>
-        {!collapsed && <Logo size={26} />}
+  return (
+    <div className="flex flex-col h-full" style={{ background: 'var(--sidebar-bg)' }}>
+      {/* Logo area */}
+      <div
+        className={clsx(
+          'flex items-center border-b flex-shrink-0',
+          collapsed ? 'px-3 py-[14px] justify-center' : 'px-4 py-[14px] justify-between'
+        )}
+        style={{ borderColor: 'var(--sidebar-border)' }}
+      >
+        {!collapsed && (
+          <div className="flex items-center gap-2.5 min-w-0">
+            <svg width={28} height={28} viewBox="0 0 48 48">
+              <defs>
+                <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#F9A8D4"/>
+                  <stop offset="100%" stopColor="#FB923C"/>
+                </linearGradient>
+              </defs>
+              <polygon points="24,2 43,12 43,36 24,46 5,36 5,12" fill="url(#sg)"/>
+              <path d="M28,10 L16,26 L22,26 L20,38 L32,22 L26,22 Z" fill="white"/>
+            </svg>
+            <span className="font-bold text-sm tracking-tight gb-gradient-text whitespace-nowrap">
+              Goldbolts CRM
+            </span>
+          </div>
+        )}
         {collapsed && (
-          <div className="w-7 h-7 rounded-lg gb-gradient flex items-center justify-center">
+          <div className="w-7 h-7 rounded flex items-center justify-center gb-gradient">
             <svg width={14} height={14} viewBox="0 0 48 48">
               <polygon points="24,2 43,12 43,36 24,46 5,36 5,12" fill="white" fillOpacity="0.3"/>
-              <path d="M28,10 L16,26 L22,26 L20,38 L32,22 L26,22 Z" fill="white" />
+              <path d="M28,10 L16,26 L22,26 L20,38 L32,22 L26,22 Z" fill="white"/>
             </svg>
           </div>
         )}
         <div className="flex items-center gap-1">
-          {/* Mobile close button */}
           {onMobileClose && (
             <button
               onClick={onMobileClose}
-              className="md:hidden p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+              className="md:hidden p-1.5 rounded text-slate-500 hover:text-slate-300 hover:bg-white/5 transition-colors"
             >
-              <X size={16} />
+              <X size={14} />
             </button>
           )}
-          {/* Desktop collapse button */}
           {!collapsed && (
             <button
               onClick={() => setCollapsed(true)}
-              className="hidden md:flex p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+              className="hidden md:flex p-1.5 rounded text-slate-500 hover:text-slate-300 hover:bg-white/5 transition-colors"
             >
               <ChevronLeft size={14} />
+            </button>
+          )}
+          {collapsed && (
+            <button
+              onClick={() => setCollapsed(false)}
+              className="hidden md:flex p-1.5 rounded text-slate-500 hover:text-slate-300 hover:bg-white/5 transition-colors"
+            >
+              <ChevronRight size={14} />
             </button>
           )}
         </div>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 py-2 overflow-y-auto overflow-x-hidden">
-        {collapsed && (
-          <button
-            onClick={() => setCollapsed(false)}
-            className="flex items-center justify-center w-8 h-8 mx-auto mb-1 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-colors"
-          >
-            <ChevronRight size={14} />
-          </button>
-        )}
+      <nav className="flex-1 py-3 overflow-y-auto overflow-x-hidden space-y-0.5">
+        {SECTIONS.map(({ label, items }) => (
+          <div key={label} className={clsx('mb-1', !collapsed && 'px-3')}>
+            {/* Section label */}
+            {!collapsed && (
+              <p
+                className="text-[10px] font-semibold uppercase tracking-widest px-1 mb-1 mt-3 first:mt-1"
+                style={{ color: 'var(--sidebar-section)' }}
+              >
+                {label}
+              </p>
+            )}
+            {collapsed && <div className="h-px mx-auto w-6 mb-2 mt-3 first:mt-1" style={{ background: 'var(--sidebar-border)' }} />}
 
-        {NAV.map(({ label, href, icon: Icon }) => {
-          const active = href === '/' ? path === '/' : path.startsWith(href);
-          return (
-            <Link
-              key={href}
-              href={href}
-              title={collapsed ? label : undefined}
-              onClick={onMobileClose}
-              className={clsx(
-                'flex items-center gap-3 py-2.5 mx-2 rounded-lg text-sm font-medium transition-all',
-                collapsed ? 'justify-center px-2' : 'px-3',
-                active
-                  ? 'nav-item-active'
-                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800'
-              )}
-            >
-              <Icon size={16} className={clsx('flex-shrink-0', active ? 'text-pink-500' : 'text-gray-400')} />
-              {!collapsed && label}
-            </Link>
-          );
-        })}
+            {items.map(({ label: itemLabel, href, icon: Icon }) => {
+              const active = href === '/' ? path === '/' : path.startsWith(href);
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={onMobileClose}
+                  title={collapsed ? itemLabel : undefined}
+                  className={clsx(
+                    'flex items-center gap-3 py-2 rounded text-[13px] font-medium transition-all relative',
+                    collapsed ? 'justify-center px-2 mx-1' : 'px-3',
+                    active
+                      ? 'nav-item-active'
+                      : 'hover:bg-white/5'
+                  )}
+                  style={{
+                    color: active ? 'var(--sidebar-active-text)' : 'var(--sidebar-text)',
+                  }}
+                  onMouseEnter={e => {
+                    if (!active) (e.currentTarget as HTMLAnchorElement).style.color = 'var(--sidebar-text-hover)';
+                  }}
+                  onMouseLeave={e => {
+                    if (!active) (e.currentTarget as HTMLAnchorElement).style.color = 'var(--sidebar-text)';
+                  }}
+                >
+                  <Icon
+                    size={15}
+                    className="flex-shrink-0"
+                    style={{ color: active ? 'var(--sidebar-active-icon)' : 'inherit' }}
+                  />
+                  {!collapsed && itemLabel}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
 
-      {/* Bottom */}
-      <div className="border-t border-gray-100 p-2 space-y-1 flex-shrink-0">
-        {/* Cmd+K hint */}
-        {!collapsed && (
-          <div className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 mb-1">
-            <Command size={11} className="text-gray-400 flex-shrink-0" />
-            <span className="text-[10px] text-gray-400">⌘K search · ⌘/ AI</span>
+      {/* User footer */}
+      <div
+        className="border-t flex-shrink-0 p-3"
+        style={{ borderColor: 'var(--sidebar-border)' }}
+      >
+        <div className={clsx('flex items-center gap-2.5 mb-2', collapsed && 'justify-center')}>
+          <div className="w-7 h-7 rounded gb-gradient flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
+            {initials}
           </div>
-        )}
-
-        {/* User */}
-        <div className={clsx('px-2 py-2', collapsed && 'flex justify-center')}>
-          <UserAvatar name={user?.name} collapsed={collapsed} />
+          {!collapsed && (
+            <div className="min-w-0 flex-1">
+              <p className="text-[12px] font-semibold truncate" style={{ color: 'var(--sidebar-text-hover)' }}>
+                {user?.name || 'Admin'}
+              </p>
+              <p className="text-[10px] truncate" style={{ color: 'var(--sidebar-section)' }}>
+                {user?.email || 'goldbolts.org'}
+              </p>
+            </div>
+          )}
         </div>
-
-        {/* Sign out */}
         <button
           onClick={logout}
           title={collapsed ? 'Sign out' : undefined}
           className={clsx(
-            'flex items-center gap-2.5 w-full rounded-lg text-xs text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all py-2',
-            collapsed ? 'justify-center px-2' : 'px-3'
+            'flex items-center gap-2 w-full rounded py-1.5 text-[12px] font-medium transition-colors',
+            collapsed ? 'justify-center px-2' : 'px-2'
           )}
+          style={{ color: 'var(--sidebar-section)' }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#EF4444')}
+          onMouseLeave={e => (e.currentTarget.style.color = 'var(--sidebar-section)')}
         >
-          <LogOut size={14} />
+          <LogOut size={13} />
           {!collapsed && 'Sign out'}
         </button>
       </div>
-    </>
+    </div>
   );
+}
+
+export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <>
       {/* Desktop sidebar */}
       <aside
-        className={clsx(
-          'hidden md:flex flex-col h-full bg-white border-r border-gray-100 shadow-sm flex-shrink-0 transition-all duration-200',
-          collapsed ? 'w-14' : 'w-56'
-        )}
+        className="hidden md:flex flex-col h-full flex-shrink-0 transition-all duration-200"
+        style={{
+          width: collapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)',
+          background: 'var(--sidebar-bg)',
+          borderRight: '1px solid var(--sidebar-border)',
+        }}
       >
-        {sidebarContent}
+        <NavContent collapsed={collapsed} setCollapsed={setCollapsed} />
       </aside>
 
-      {/* Mobile sidebar — slides in as overlay */}
+      {/* Mobile sidebar overlay */}
       <aside
         className={clsx(
-          'md:hidden fixed inset-y-0 left-0 z-50 flex flex-col w-64 bg-white border-r border-gray-100 shadow-xl transition-transform duration-300',
+          'md:hidden fixed inset-y-0 left-0 z-50 flex flex-col w-64 transition-transform duration-300',
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         )}
+        style={{ background: 'var(--sidebar-bg)' }}
       >
-        {sidebarContent}
+        <NavContent collapsed={false} setCollapsed={() => {}} onMobileClose={onMobileClose} />
       </aside>
     </>
   );
