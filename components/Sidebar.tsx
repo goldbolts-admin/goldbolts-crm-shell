@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import {
   Users, BarChart2, Mail, MessageSquare, Video,
   FileText, CreditCard, BookOpen, Settings, LogOut,
-  Zap, ChevronLeft, ChevronRight, Command,
+  Zap, ChevronLeft, ChevronRight, Command, X,
 } from 'lucide-react';
 import { Logo } from './Logo';
 import { logout, getUser } from '@/lib/auth';
@@ -43,18 +43,18 @@ function UserAvatar({ name, collapsed }: { name?: string; collapsed: boolean }) 
   );
 }
 
-export function Sidebar() {
+interface SidebarProps {
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
+}
+
+export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
   const path = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const user = getUser();
 
-  return (
-    <aside
-      className={clsx(
-        'flex flex-col h-full bg-white border-r border-gray-100 shadow-sm flex-shrink-0 transition-all duration-200',
-        collapsed ? 'w-14' : 'w-56'
-      )}
-    >
+  const sidebarContent = (
+    <>
       {/* Logo */}
       <div className={clsx(
         'flex items-center border-b border-gray-100 flex-shrink-0',
@@ -69,14 +69,26 @@ export function Sidebar() {
             </svg>
           </div>
         )}
-        {!collapsed && (
-          <button
-            onClick={() => setCollapsed(true)}
-            className="p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
-          >
-            <ChevronLeft size={14} />
-          </button>
-        )}
+        <div className="flex items-center gap-1">
+          {/* Mobile close button */}
+          {onMobileClose && (
+            <button
+              onClick={onMobileClose}
+              className="md:hidden p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            >
+              <X size={16} />
+            </button>
+          )}
+          {/* Desktop collapse button */}
+          {!collapsed && (
+            <button
+              onClick={() => setCollapsed(true)}
+              className="hidden md:flex p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            >
+              <ChevronLeft size={14} />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Nav */}
@@ -97,8 +109,9 @@ export function Sidebar() {
               key={href}
               href={href}
               title={collapsed ? label : undefined}
+              onClick={onMobileClose}
               className={clsx(
-                'flex items-center gap-3 py-2 mx-2 rounded-lg text-sm font-medium transition-all',
+                'flex items-center gap-3 py-2.5 mx-2 rounded-lg text-sm font-medium transition-all',
                 collapsed ? 'justify-center px-2' : 'px-3',
                 active
                   ? 'nav-item-active'
@@ -116,7 +129,7 @@ export function Sidebar() {
       <div className="border-t border-gray-100 p-2 space-y-1 flex-shrink-0">
         {/* Cmd+K hint */}
         {!collapsed && (
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 mb-1">
+          <div className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 mb-1">
             <Command size={11} className="text-gray-400 flex-shrink-0" />
             <span className="text-[10px] text-gray-400">⌘K search · ⌘/ AI</span>
           </div>
@@ -140,6 +153,30 @@ export function Sidebar() {
           {!collapsed && 'Sign out'}
         </button>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <aside
+        className={clsx(
+          'hidden md:flex flex-col h-full bg-white border-r border-gray-100 shadow-sm flex-shrink-0 transition-all duration-200',
+          collapsed ? 'w-14' : 'w-56'
+        )}
+      >
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile sidebar — slides in as overlay */}
+      <aside
+        className={clsx(
+          'md:hidden fixed inset-y-0 left-0 z-50 flex flex-col w-64 bg-white border-r border-gray-100 shadow-xl transition-transform duration-300',
+          mobileOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
+        {sidebarContent}
+      </aside>
+    </>
   );
 }
