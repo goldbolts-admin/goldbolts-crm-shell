@@ -1,41 +1,101 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+/* ── shadcn/ui CSS variable layer ─────────────────────────────── */
 :root {
+  --background: 0 0% 100%;
+  --foreground: 224 71% 4%;
+  --card: 0 0% 100%;
+  --card-foreground: 224 71% 4%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 224 71% 4%;
+  --primary: 330 81% 60%;        /* GB pink */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 220 9% 46%;
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
+  --accent: 220 14% 96%;
+  --accent-foreground: 224 71% 4%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 330 81% 60%;
+  --radius: 0.625rem;
+
+  /* ── GB brand tokens ─────────────────────────────────────────── */
   --gb-pink: #F472B6;
   --gb-orange: #F97316;
   --gb-pink-light: #FDF2F8;
   --gb-orange-light: #FFF7ED;
+  --gb-gradient: linear-gradient(135deg, #F472B6 0%, #F97316 100%);
+
+  /* ── Sidebar ─────────────────────────────────────────────────── */
+  --sidebar-width: 224px;
+  --sidebar-collapsed-width: 56px;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
 
 body {
   font-family: Inter, system-ui, -apple-system, sans-serif;
-  background: #F9FAFB;
-  color: #111827;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
 }
 
-.gb-gradient { background: linear-gradient(135deg, #F472B6 0%, #F97316 100%); }
-
-.gb-gradient-text {
-  background: linear-gradient(135deg, #F472B6 0%, #F97316 100%);
+/* ── Utility classes ─────────────────────────────────────────────── */
+.gb-gradient        { background: var(--gb-gradient); }
+.gb-gradient-text   {
+  background: var(--gb-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #FBCFE8; border-radius: 4px; }
+/* ── Scrollbar ────────────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 4px; height: 4px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: #FBCFE8; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #F9A8D4; }
 
+/* ── Tool frame (iframe pages) ───────────────────────────────────── */
 .tool-frame { width: 100%; height: 100%; border: none; display: block; }
 
+/* ── Nav active state ─────────────────────────────────────────────── */
 .nav-item-active {
   background: linear-gradient(135deg, #FDF2F8 0%, #FFF7ED 100%);
   border-left: 3px solid #F472B6;
   color: #BE185D;
+  font-weight: 600;
 }
 .nav-item-active svg { color: #F472B6; }
+
+/* ── assistant-ui overrides ──────────────────────────────────────── */
+[data-aui-root] {
+  --aui-primary: #F472B6;
+  --aui-primary-foreground: #fff;
+  --aui-secondary: #FDF2F8;
+  --aui-muted: #F9FAFB;
+  height: 100%;
+}
+
+/* ── cmdk (command palette) ──────────────────────────────────────── */
+[cmdk-overlay] {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+}
+[cmdk-dialog] {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 51;
+  width: 560px;
+  max-width: calc(100vw - 2rem);
+}
