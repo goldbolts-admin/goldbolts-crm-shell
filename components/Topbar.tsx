@@ -87,7 +87,7 @@ export function Topbar({ onMobileMenu }: TopbarProps) {
 
   return (
     <header
-      className="flex items-center gap-3 px-5 h-[58px] flex-shrink-0 z-30"
+      className="flex items-center gap-3 px-6 h-16 flex-shrink-0 z-30"
       style={{
         background: 'var(--topbar-bg)',
         borderBottom: '1px solid var(--topbar-border)',

@@ -110,7 +110,7 @@ export default function PipelinePage() {
     <div className="h-full flex flex-col overflow-hidden">
       {/* Toolbar */}
       <div
-        className="flex items-center gap-3 px-5 py-3 border-b flex-shrink-0"
+        className="flex items-center gap-3 px-6 py-4 border-b flex-shrink-0"
         style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
       >
         <Zap size={16} style={{ color: 'var(--gb-orange)' }} />
@@ -157,8 +157,8 @@ export default function PipelinePage() {
 
       {/* Kanban View */}
       {view === 'kanban' && (
-        <div className="flex-1 overflow-x-auto overflow-y-hidden p-5">
-          <div className="flex gap-4 h-full min-w-max">
+        <div className="flex-1 overflow-x-auto overflow-y-hidden p-6">
+          <div className="flex gap-5 h-full min-w-max">
             {STAGES.map(({ key, label, color }) => {
               const stageDeals = byStage(key);
               const stageValue = stageDeals.reduce((s, d) => s + (d.amount?.amountMicros ?? 0) / 1_000_000, 0);
@@ -166,7 +166,7 @@ export default function PipelinePage() {
                 <div key={key} className="w-72 flex flex-col flex-shrink-0 h-full">
                   {/* Stage header */}
                   <div
-                    className="flex items-center justify-between px-3 py-2 rounded-t-lg border border-b-0 flex-shrink-0"
+                    className="flex items-center justify-between px-4 py-3 rounded-t-lg border border-b-0 flex-shrink-0"
                     style={{ background: color + '12', borderColor: color + '30' }}
                   >
                     <div className="flex items-center gap-2">
@@ -188,7 +188,7 @@ export default function PipelinePage() {
 
                   {/* Deal cards */}
                   <div
-                    className="flex-1 overflow-y-auto p-2 space-y-2 rounded-b-lg border"
+                    className="flex-1 overflow-y-auto p-3 space-y-3 rounded-b-lg border"
                     style={{ background: 'var(--bg)', borderColor: color + '30' }}
                   >
                     {loading ? (
@@ -208,7 +208,7 @@ export default function PipelinePage() {
                         href={`${TOOLS.crm}/objects/opportunities/${deal.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="card p-3 block hover:shadow-md transition-shadow group"
+                        className="card p-4 block hover:shadow-md transition-shadow group"
                       >
                         <div className="flex items-start justify-between gap-2 mb-1.5">
                           <p className="text-[13px] font-semibold leading-tight" style={{ color: 'var(--text)' }}>
@@ -252,7 +252,7 @@ export default function PipelinePage() {
                 {['Deal', 'Company', 'Stage', 'Value', 'Close Date', ''].map(h => (
                   <th
                     key={h}
-                    className="text-left px-4 py-3 text-[12px] font-semibold uppercase tracking-wider"
+                    className="text-left px-5 py-4 text-[12px] font-semibold uppercase tracking-wider"
                     style={{ color: 'var(--text-xs)', position: 'sticky', top: 0, background: 'var(--bg-card)', zIndex: 1, borderBottom: '1px solid var(--border)' }}
                   >
                     {h}
@@ -264,7 +264,7 @@ export default function PipelinePage() {
               {loading ? Array.from({ length: 8 }).map((_, i) => (
                 <tr key={i} style={{ borderBottom: '1px solid var(--border)' }}>
                   {Array.from({ length: 6 }).map((_, j) => (
-                    <td key={j} className="px-4 py-3">
+                    <td key={j} className="px-5 py-4">
                       <div className="h-4 rounded animate-pulse" style={{ background: 'var(--border)', width: ['70%','55%','40%','60%','45%','32px'][j] }} />
                     </td>
                   ))}
@@ -276,18 +276,18 @@ export default function PipelinePage() {
                     onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg-card-hover)')}
                     onMouseLeave={e => (e.currentTarget.style.background = i % 2 === 0 ? 'var(--bg-card)' : 'var(--bg)')}
                   >
-                    <td className="px-4 py-3 font-semibold" style={{ color: 'var(--text)' }}>{deal.name?.value || '—'}</td>
-                    <td className="px-4 py-3" style={{ color: 'var(--text-muted)' }}>{deal.company?.name?.value || '—'}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-5 py-4 font-semibold" style={{ color: 'var(--text)' }}>{deal.name?.value || '—'}</td>
+                    <td className="px-5 py-4" style={{ color: 'var(--text-muted)' }}>{deal.company?.name?.value || '—'}</td>
+                    <td className="px-5 py-4">
                       <span className="badge" style={{ background: (stage?.color || '#94A3B8') + '18', color: stage?.color || '#94A3B8' }}>
                         {stage?.label || deal.stage}
                       </span>
                     </td>
-                    <td className="px-4 py-3 font-medium" style={{ color: 'var(--text)' }}>{formatAmount(deal) || '—'}</td>
-                    <td className="px-4 py-3" style={{ color: 'var(--text-muted)' }}>
+                    <td className="px-5 py-4 font-medium" style={{ color: 'var(--text)' }}>{formatAmount(deal) || '—'}</td>
+                    <td className="px-5 py-4" style={{ color: 'var(--text-muted)' }}>
                       {deal.closeDate ? new Date(deal.closeDate).toLocaleDateString() : '—'}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-5 py-4">
                       <a href={`${TOOLS.crm}/objects/opportunities/${deal.id}`} target="_blank" rel="noopener noreferrer"
                         className="p-1.5 rounded-md inline-flex" style={{ color: 'var(--text-xs)' }}
                         onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'var(--gb-pink)'; (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(244,114,182,0.08)'; }}

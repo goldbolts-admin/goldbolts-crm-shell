@@ -162,7 +162,7 @@ export default function ContactsPage() {
     <div className="h-full flex flex-col overflow-hidden">
       {/* Toolbar */}
       <div
-        className="flex items-center gap-3 px-5 py-3 border-b flex-shrink-0"
+        className="flex items-center gap-3 px-6 py-4 border-b flex-shrink-0"
         style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
       >
         <div className="flex-1 relative max-w-sm">
@@ -238,7 +238,7 @@ export default function ContactsPage() {
               ].map(({ label, icon: Icon }) => (
                 <th
                   key={label}
-                  className="text-left px-4 py-3 text-[12px] font-semibold uppercase tracking-wider whitespace-nowrap"
+                  className="text-left px-5 py-4 text-[12px] font-semibold uppercase tracking-wider whitespace-nowrap"
                   style={{ color: 'var(--text-xs)', position: 'sticky', top: 0, background: 'var(--bg-card)', zIndex: 1, borderBottom: '1px solid var(--border)' }}
                 >
                   <span className="flex items-center gap-1.5">
@@ -254,7 +254,7 @@ export default function ContactsPage() {
               Array.from({ length: 15 }).map((_, i) => (
                 <tr key={i} style={{ borderBottom: '1px solid var(--border)' }}>
                   {Array.from({ length: 6 }).map((_, j) => (
-                    <td key={j} className="px-4 py-3">
+                    <td key={j} className="px-5 py-4">
                       <div
                         className="h-4 rounded animate-pulse"
                         style={{ background: 'var(--border)', width: j === 5 ? '60px' : ['75%','55%','65%','80%','45%'][j] }}
@@ -279,7 +279,7 @@ export default function ContactsPage() {
                 onMouseEnter={e => (e.currentTarget.style.background = 'var(--bg-card-hover)')}
                 onMouseLeave={e => (e.currentTarget.style.background = i % 2 === 0 ? 'var(--bg-card)' : 'var(--bg)')}
               >
-                <td className="px-4 py-3 font-semibold" style={{ color: 'var(--text)' }}>
+                <td className="px-5 py-4 font-semibold" style={{ color: 'var(--text)' }}>
                   <div className="flex items-center gap-2.5">
                     <div
                       className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0"
@@ -290,19 +290,19 @@ export default function ContactsPage() {
                     {fullName(c)}
                   </div>
                 </td>
-                <td className="px-4 py-3" style={{ color: 'var(--text-muted)' }}>
+                <td className="px-5 py-4" style={{ color: 'var(--text-muted)' }}>
                   {c.emails?.primaryEmail || '—'}
                 </td>
-                <td className="px-4 py-3" style={{ color: 'var(--text-muted)' }}>
+                <td className="px-5 py-4" style={{ color: 'var(--text-muted)' }}>
                   {c.phones?.primaryPhoneNumber || '—'}
                 </td>
-                <td className="px-4 py-3" style={{ color: 'var(--text-muted)' }}>
+                <td className="px-5 py-4" style={{ color: 'var(--text-muted)' }}>
                   {c.company?.name?.value || '—'}
                 </td>
-                <td className="px-4 py-3" style={{ color: 'var(--text-muted)' }}>
+                <td className="px-5 py-4" style={{ color: 'var(--text-muted)' }}>
                   {c.city || '—'}
                 </td>
-                <td className="px-4 py-3">
+                <td className="px-5 py-4">
                   <a
                     href={`${TOOLS.crm}/objects/people/${c.id}`}
                     target="_blank"
@@ -329,7 +329,7 @@ export default function ContactsPage() {
 
       {/* Pagination */}
       <div
-        className="flex items-center justify-between px-5 py-3 border-t flex-shrink-0"
+        className="flex items-center justify-between px-6 py-4 border-t flex-shrink-0"
         style={{ background: 'var(--bg-card)', borderColor: 'var(--border)' }}
       >
         <span className="text-sm" style={{ color: 'var(--text-muted)' }}>

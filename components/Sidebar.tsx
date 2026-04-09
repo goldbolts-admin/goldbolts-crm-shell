@@ -138,12 +138,12 @@ function NavContent({
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 py-3 overflow-y-auto overflow-x-hidden">
+      <nav className="flex-1 py-4 overflow-y-auto overflow-x-hidden">
         {SECTIONS.map(({ label, items }) => (
           <div key={label} className={clsx('mb-1', !collapsed && 'px-3')}>
             {!collapsed && (
               <p
-                className="text-[11px] font-semibold uppercase tracking-widest px-2 mb-1.5 mt-4 first:mt-1"
+                className="text-[11px] font-semibold uppercase tracking-widest px-2 mb-2 mt-6 first:mt-1"
                 style={{ color: 'var(--sidebar-section)' }}
               >
                 {label}
@@ -151,7 +151,7 @@ function NavContent({
             )}
             {collapsed && (
               <div
-                className="h-px mx-3 mb-2 mt-4 first:mt-1"
+                className="h-px mx-3 mb-2 mt-6 first:mt-1"
                 style={{ background: 'var(--sidebar-border)' }}
               />
             )}
@@ -165,8 +165,8 @@ function NavContent({
                   onClick={onMobileClose}
                   title={collapsed ? itemLabel : undefined}
                   className={clsx(
-                    'flex items-center gap-3 py-2.5 rounded-md text-[14px] font-medium transition-all',
-                    collapsed ? 'justify-center px-2 mx-1' : 'px-3.5',
+                    'flex items-center gap-3 py-3 rounded-md text-[14px] font-medium transition-all',
+                    collapsed ? 'justify-center px-3 mx-1' : 'px-4',
                     active ? 'nav-item-active' : ''
                   )}
                   style={{
@@ -200,11 +200,11 @@ function NavContent({
 
       {/* Footer */}
       <div
-        className="border-t flex-shrink-0 p-3"
+        className="border-t flex-shrink-0 p-4"
         style={{ borderColor: 'var(--sidebar-border)' }}
       >
-        <div className={clsx('flex items-center gap-3 px-1 py-2 mb-1', collapsed && 'justify-center px-0')}>
-          <div className="w-8 h-8 rounded-lg gb-gradient flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0">
+        <div className={clsx('flex items-center gap-3 px-1 py-2.5 mb-1', collapsed && 'justify-center px-0')}>
+          <div className="w-9 h-9 rounded-lg gb-gradient flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0">
             {initials}
           </div>
           {!collapsed && (
@@ -212,7 +212,7 @@ function NavContent({
               <p className="text-[13px] font-semibold truncate" style={{ color: 'var(--sidebar-user-name)' }}>
                 {user?.name || 'Admin'}
               </p>
-              <p className="text-[11px] truncate" style={{ color: 'var(--sidebar-user-sub)' }}>
+              <p className="text-[11px] mt-0.5 truncate" style={{ color: 'var(--sidebar-user-sub)' }}>
                 {user?.email || 'goldbolts.org'}
               </p>
             </div>
@@ -223,8 +223,8 @@ function NavContent({
           onClick={logout}
           title={collapsed ? 'Sign out' : undefined}
           className={clsx(
-            'flex items-center gap-2.5 w-full rounded-md py-2 text-[13px] font-medium transition-all',
-            collapsed ? 'justify-center px-2' : 'px-3'
+            'flex items-center gap-2.5 w-full rounded-md py-2.5 text-[13px] font-medium transition-all',
+            collapsed ? 'justify-center px-3' : 'px-3'
           )}
           style={{ color: 'var(--sidebar-section)', fontFamily: 'inherit' }}
           onMouseEnter={e => {

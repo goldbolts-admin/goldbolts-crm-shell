@@ -111,14 +111,14 @@ export default function DashboardPage() {
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
   return (
-    <div className="h-full overflow-y-auto p-6 space-y-6">
+    <div className="h-full overflow-y-auto p-8 space-y-8">
       {/* Page header */}
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold" style={{ color: 'var(--text)' }}>
             {greeting}{user?.name ? `, ${user.name.split(' ')[0]}` : ''} 👋
           </h1>
-          <p className="text-[13px] mt-0.5" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-[13px] mt-1" style={{ color: 'var(--text-muted)' }}>
             Here&apos;s your RevOps snapshot for today.
           </p>
         </div>
@@ -132,21 +132,21 @@ export default function DashboardPage() {
 
       {/* KPI Grid */}
       <div>
-        <h2 className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-xs)' }}>
+        <h2 className="text-[11px] font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--text-xs)' }}>
           Key Metrics
         </h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {KPIS.map(({ label, value, delta, deltaUp, icon: Icon, color, bg }) => (
             <div
               key={label}
-              className="card p-4 hover:shadow-md transition-shadow cursor-default"
+              className="card p-5 hover:shadow-md transition-shadow cursor-default"
             >
-              <div className="flex items-start justify-between mb-3">
+              <div className="flex items-start justify-between mb-4">
                 <div
-                  className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0"
+                  className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                   style={{ background: bg }}
                 >
-                  <Icon size={15} style={{ color }} />
+                  <Icon size={16} style={{ color }} />
                 </div>
                 {deltaUp === true && (
                   <ArrowUpRight size={13} className="text-emerald-500 mt-0.5" />
@@ -155,10 +155,10 @@ export default function DashboardPage() {
               <p className="text-2xl font-bold tabular-nums" style={{ color: 'var(--text)' }}>
                 {value}
               </p>
-              <p className="text-[11px] font-medium mt-0.5" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-[12px] font-medium mt-1" style={{ color: 'var(--text-muted)' }}>
                 {label}
               </p>
-              <p className="text-[10px] mt-1 font-medium" style={{ color }}>
+              <p className="text-[11px] mt-1.5 font-medium" style={{ color }}>
                 {delta}
               </p>
             </div>
@@ -168,15 +168,15 @@ export default function DashboardPage() {
 
       {/* Quick Actions */}
       <div>
-        <h2 className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-xs)' }}>
+        <h2 className="text-[11px] font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--text-xs)' }}>
           Quick Actions
         </h2>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2.5">
           {QUICK_ACTIONS.map(({ label, href, icon: Icon, color }) => (
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-2 px-3 py-2 rounded text-[12px] font-semibold transition-all hover:shadow-sm border"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-md text-[13px] font-semibold transition-all hover:shadow-sm border"
               style={{
                 background: 'var(--bg-card)',
                 borderColor: 'var(--border)',
@@ -200,23 +200,23 @@ export default function DashboardPage() {
 
       {/* Modules */}
       <div>
-        <h2 className="text-[11px] font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--text-xs)' }}>
+        <h2 className="text-[11px] font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--text-xs)' }}>
           All Modules
         </h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {MODULES.map(({ label, href, icon: Icon, desc, color }) => (
             <Link
               key={href}
               href={href}
-              className="card p-4 hover:shadow-md transition-all group"
+              className="card p-5 hover:shadow-md transition-all group"
               onMouseEnter={e => (e.currentTarget.style.borderColor = color + '40')}
               onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
             >
               <div
-                className="w-8 h-8 rounded flex items-center justify-center mb-3"
+                className="w-9 h-9 rounded-lg flex items-center justify-center mb-4"
                 style={{ background: color + '12' }}
               >
-                <Icon size={15} style={{ color }} />
+                <Icon size={16} style={{ color }} />
               </div>
               <div className="flex items-start justify-between gap-1">
                 <p className="text-[13px] font-semibold leading-tight" style={{ color: 'var(--text)' }}>

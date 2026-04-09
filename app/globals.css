@@ -31,8 +31,8 @@
   --sidebar-active-bg: rgba(244,114,182,0.1);
   --sidebar-active-text: #BE185D;
   --sidebar-active-icon: #F472B6;
-  --sidebar-width: 220px;
-  --sidebar-width-collapsed: 56px;
+  --sidebar-width: 244px;
+  --sidebar-width-collapsed: 60px;
   --sidebar-user-name: #1E293B;
   --sidebar-user-sub: #94A3B8;
 
@@ -127,7 +127,7 @@ body {
   background: var(--sidebar-active-bg) !important;
   color: var(--sidebar-active-text) !important;
   border-left: 2px solid var(--sidebar-active-text);
-  padding-left: calc(0.875rem - 2px) !important;
+  padding-left: calc(1rem - 2px) !important;
 }
 .nav-item-active svg { color: var(--sidebar-active-icon) !important; }
 
