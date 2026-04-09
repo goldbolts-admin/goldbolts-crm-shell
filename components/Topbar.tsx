@@ -87,7 +87,7 @@ export function Topbar({ onMobileMenu }: TopbarProps) {
 
   return (
     <header
-      className="flex items-center gap-3 px-4 h-[52px] flex-shrink-0 z-30"
+      className="flex items-center gap-3 px-5 h-[58px] flex-shrink-0 z-30"
       style={{
         background: 'var(--topbar-bg)',
         borderBottom: '1px solid var(--topbar-border)',
@@ -105,11 +105,11 @@ export function Topbar({ onMobileMenu }: TopbarProps) {
 
       {/* Breadcrumb */}
       <div className="flex items-center gap-1.5 flex-1 min-w-0">
-        <span className="text-[12px] font-medium hidden sm:block" style={{ color: 'var(--topbar-muted)' }}>
+        <span className="text-[13px] font-medium hidden sm:block" style={{ color: 'var(--topbar-muted)' }}>
           {section}
         </span>
-        <ChevronRight size={12} className="hidden sm:block flex-shrink-0" style={{ color: 'var(--topbar-muted)' }} />
-        <span className="text-[13px] font-semibold truncate" style={{ color: 'var(--topbar-text)' }}>
+        <ChevronRight size={13} className="hidden sm:block flex-shrink-0" style={{ color: 'var(--topbar-muted)' }} />
+        <span className="text-[15px] font-semibold truncate" style={{ color: 'var(--topbar-text)' }}>
           {page}
         </span>
       </div>

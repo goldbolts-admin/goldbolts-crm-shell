@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Prevent dark-mode flash */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem('gb-theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}})()`,
+            __html: `(function(){var t=localStorage.getItem('gb-theme');if(t==='dark'){document.documentElement.classList.add('dark');}})()`,
           }}
         />
       </head>

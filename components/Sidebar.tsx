@@ -66,18 +66,21 @@ function NavContent({
     : 'GB';
 
   return (
-    <div className="flex flex-col h-full" style={{ background: 'var(--sidebar-bg)' }}>
-      {/* Logo area */}
+    <div
+      className="flex flex-col h-full"
+      style={{ background: 'var(--sidebar-bg)', borderRight: '1px solid var(--sidebar-border)' }}
+    >
+      {/* Logo */}
       <div
         className={clsx(
           'flex items-center border-b flex-shrink-0',
-          collapsed ? 'px-3 py-[14px] justify-center' : 'px-4 py-[14px] justify-between'
+          collapsed ? 'px-3 py-4 justify-center' : 'px-4 py-4 justify-between'
         )}
-        style={{ borderColor: 'var(--sidebar-border)' }}
+        style={{ borderColor: 'var(--sidebar-border)', minHeight: '60px' }}
       >
         {!collapsed && (
           <div className="flex items-center gap-2.5 min-w-0">
-            <svg width={28} height={28} viewBox="0 0 48 48">
+            <svg width={30} height={30} viewBox="0 0 48 48">
               <defs>
                 <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0%" stopColor="#F9A8D4"/>
@@ -87,14 +90,14 @@ function NavContent({
               <polygon points="24,2 43,12 43,36 24,46 5,36 5,12" fill="url(#sg)"/>
               <path d="M28,10 L16,26 L22,26 L20,38 L32,22 L26,22 Z" fill="white"/>
             </svg>
-            <span className="font-bold text-sm tracking-tight gb-gradient-text whitespace-nowrap">
+            <span className="font-bold text-[15px] tracking-tight gb-gradient-text whitespace-nowrap">
               Goldbolts CRM
             </span>
           </div>
         )}
         {collapsed && (
-          <div className="w-7 h-7 rounded flex items-center justify-center gb-gradient">
-            <svg width={14} height={14} viewBox="0 0 48 48">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center gb-gradient">
+            <svg width={16} height={16} viewBox="0 0 48 48">
               <polygon points="24,2 43,12 43,36 24,46 5,36 5,12" fill="white" fillOpacity="0.3"/>
               <path d="M28,10 L16,26 L22,26 L20,38 L32,22 L26,22 Z" fill="white"/>
             </svg>
@@ -104,44 +107,53 @@ function NavContent({
           {onMobileClose && (
             <button
               onClick={onMobileClose}
-              className="md:hidden p-1.5 rounded text-slate-500 hover:text-slate-300 hover:bg-white/5 transition-colors"
+              className="md:hidden p-1.5 rounded transition-colors"
+              style={{ color: 'var(--sidebar-section)' }}
             >
-              <X size={14} />
+              <X size={16} />
             </button>
           )}
           {!collapsed && (
             <button
               onClick={() => setCollapsed(true)}
-              className="hidden md:flex p-1.5 rounded text-slate-500 hover:text-slate-300 hover:bg-white/5 transition-colors"
+              className="hidden md:flex p-1.5 rounded transition-colors"
+              style={{ color: 'var(--sidebar-section)' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--sidebar-text-hover)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--sidebar-section)')}
             >
-              <ChevronLeft size={14} />
+              <ChevronLeft size={16} />
             </button>
           )}
           {collapsed && (
             <button
               onClick={() => setCollapsed(false)}
-              className="hidden md:flex p-1.5 rounded text-slate-500 hover:text-slate-300 hover:bg-white/5 transition-colors"
+              className="hidden md:flex p-1.5 rounded transition-colors"
+              style={{ color: 'var(--sidebar-section)' }}
             >
-              <ChevronRight size={14} />
+              <ChevronRight size={16} />
             </button>
           )}
         </div>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 py-3 overflow-y-auto overflow-x-hidden space-y-0.5">
+      <nav className="flex-1 py-3 overflow-y-auto overflow-x-hidden">
         {SECTIONS.map(({ label, items }) => (
           <div key={label} className={clsx('mb-1', !collapsed && 'px-3')}>
-            {/* Section label */}
             {!collapsed && (
               <p
-                className="text-[10px] font-semibold uppercase tracking-widest px-1 mb-1 mt-3 first:mt-1"
+                className="text-[11px] font-semibold uppercase tracking-widest px-2 mb-1.5 mt-4 first:mt-1"
                 style={{ color: 'var(--sidebar-section)' }}
               >
                 {label}
               </p>
             )}
-            {collapsed && <div className="h-px mx-auto w-6 mb-2 mt-3 first:mt-1" style={{ background: 'var(--sidebar-border)' }} />}
+            {collapsed && (
+              <div
+                className="h-px mx-3 mb-2 mt-4 first:mt-1"
+                style={{ background: 'var(--sidebar-border)' }}
+              />
+            )}
 
             {items.map(({ label: itemLabel, href, icon: Icon }) => {
               const active = href === '/' ? path === '/' : path.startsWith(href);
@@ -152,26 +164,30 @@ function NavContent({
                   onClick={onMobileClose}
                   title={collapsed ? itemLabel : undefined}
                   className={clsx(
-                    'flex items-center gap-3 py-2 rounded text-[13px] font-medium transition-all relative',
-                    collapsed ? 'justify-center px-2 mx-1' : 'px-3',
-                    active
-                      ? 'nav-item-active'
-                      : 'hover:bg-white/5'
+                    'flex items-center gap-3 py-2.5 rounded-md text-[14px] font-medium transition-all',
+                    collapsed ? 'justify-center px-2 mx-1' : 'px-3.5',
+                    active ? 'nav-item-active' : ''
                   )}
                   style={{
                     color: active ? 'var(--sidebar-active-text)' : 'var(--sidebar-text)',
                   }}
                   onMouseEnter={e => {
-                    if (!active) (e.currentTarget as HTMLAnchorElement).style.color = 'var(--sidebar-text-hover)';
+                    if (!active) {
+                      (e.currentTarget as HTMLAnchorElement).style.color = 'var(--sidebar-text-hover)';
+                      (e.currentTarget as HTMLAnchorElement).style.background = 'var(--sidebar-active-bg)';
+                    }
                   }}
                   onMouseLeave={e => {
-                    if (!active) (e.currentTarget as HTMLAnchorElement).style.color = 'var(--sidebar-text)';
+                    if (!active) {
+                      (e.currentTarget as HTMLAnchorElement).style.color = 'var(--sidebar-text)';
+                      (e.currentTarget as HTMLAnchorElement).style.background = 'transparent';
+                    }
                   }}
                 >
                   <Icon
-                    size={15}
+                    size={17}
                     className="flex-shrink-0"
-                    style={{ color: active ? 'var(--sidebar-active-icon)' : 'inherit' }}
+                    style={{ color: active ? 'var(--sidebar-active-icon)' : 'var(--sidebar-section)' }}
                   />
                   {!collapsed && itemLabel}
                 </Link>
@@ -181,38 +197,45 @@ function NavContent({
         ))}
       </nav>
 
-      {/* User footer */}
+      {/* Footer */}
       <div
         className="border-t flex-shrink-0 p-3"
         style={{ borderColor: 'var(--sidebar-border)' }}
       >
-        <div className={clsx('flex items-center gap-2.5 mb-2', collapsed && 'justify-center')}>
-          <div className="w-7 h-7 rounded gb-gradient flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
+        <div className={clsx('flex items-center gap-3 px-1 py-2 mb-1', collapsed && 'justify-center px-0')}>
+          <div className="w-8 h-8 rounded-lg gb-gradient flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0">
             {initials}
           </div>
           {!collapsed && (
             <div className="min-w-0 flex-1">
-              <p className="text-[12px] font-semibold truncate" style={{ color: 'var(--sidebar-text-hover)' }}>
+              <p className="text-[13px] font-semibold truncate" style={{ color: 'var(--sidebar-user-name)' }}>
                 {user?.name || 'Admin'}
               </p>
-              <p className="text-[10px] truncate" style={{ color: 'var(--sidebar-section)' }}>
+              <p className="text-[11px] truncate" style={{ color: 'var(--sidebar-user-sub)' }}>
                 {user?.email || 'goldbolts.org'}
               </p>
             </div>
           )}
         </div>
+
         <button
           onClick={logout}
           title={collapsed ? 'Sign out' : undefined}
           className={clsx(
-            'flex items-center gap-2 w-full rounded py-1.5 text-[12px] font-medium transition-colors',
-            collapsed ? 'justify-center px-2' : 'px-2'
+            'flex items-center gap-2.5 w-full rounded-md py-2 text-[13px] font-medium transition-all',
+            collapsed ? 'justify-center px-2' : 'px-3'
           )}
-          style={{ color: 'var(--sidebar-section)' }}
-          onMouseEnter={e => (e.currentTarget.style.color = '#EF4444')}
-          onMouseLeave={e => (e.currentTarget.style.color = 'var(--sidebar-section)')}
+          style={{ color: 'var(--sidebar-section)', fontFamily: 'inherit' }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.color = '#EF4444';
+            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(239,68,68,0.06)';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.color = 'var(--sidebar-section)';
+            (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+          }}
         >
-          <LogOut size={13} />
+          <LogOut size={15} />
           {!collapsed && 'Sign out'}
         </button>
       </div>
@@ -225,25 +248,21 @@ export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
 
   return (
     <>
-      {/* Desktop sidebar */}
+      {/* Desktop */}
       <aside
-        className="hidden md:flex flex-col h-full flex-shrink-0 transition-all duration-200"
-        style={{
-          width: collapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)',
-          background: 'var(--sidebar-bg)',
-          borderRight: '1px solid var(--sidebar-border)',
-        }}
+        className="hidden md:block flex-shrink-0 h-full transition-all duration-200"
+        style={{ width: collapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)' }}
       >
         <NavContent collapsed={collapsed} setCollapsed={setCollapsed} />
       </aside>
 
-      {/* Mobile sidebar overlay */}
+      {/* Mobile overlay */}
       <aside
         className={clsx(
-          'md:hidden fixed inset-y-0 left-0 z-50 flex flex-col w-64 transition-transform duration-300',
+          'md:hidden fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300',
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         )}
-        style={{ background: 'var(--sidebar-bg)' }}
+        style={{ boxShadow: 'var(--shadow-lg)' }}
       >
         <NavContent collapsed={false} setCollapsed={() => {}} onMobileClose={onMobileClose} />
       </aside>
