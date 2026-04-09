@@ -48,6 +48,7 @@ const SECTIONS = [
 interface SidebarProps {
   mobileOpen?: boolean;
   onMobileClose?: () => void;
+  forceCollapsed?: boolean;
 }
 
 function NavContent({
@@ -243,17 +244,18 @@ function NavContent({
   );
 }
 
-export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
+export function Sidebar({ mobileOpen = false, onMobileClose, forceCollapsed }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const isCollapsed = forceCollapsed ?? collapsed;
 
   return (
     <>
       {/* Desktop */}
       <aside
         className="hidden md:block flex-shrink-0 h-full transition-all duration-200"
-        style={{ width: collapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)' }}
+        style={{ width: isCollapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width)' }}
       >
-        <NavContent collapsed={collapsed} setCollapsed={setCollapsed} />
+        <NavContent collapsed={isCollapsed} setCollapsed={forceCollapsed !== undefined ? () => {} : setCollapsed} />
       </aside>
 
       {/* Mobile overlay */}
