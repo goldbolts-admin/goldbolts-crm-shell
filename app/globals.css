@@ -1,26 +1,41 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --gb-pink: #F472B6;
+  --gb-orange: #F97316;
+  --gb-pink-light: #FDF2F8;
+  --gb-orange-light: #FFF7ED;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+* { box-sizing: border-box; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  background: #F9FAFB;
+  color: #111827;
 }
+
+.gb-gradient { background: linear-gradient(135deg, #F472B6 0%, #F97316 100%); }
+
+.gb-gradient-text {
+  background: linear-gradient(135deg, #F472B6 0%, #F97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #FBCFE8; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #F9A8D4; }
+
+.tool-frame { width: 100%; height: 100%; border: none; display: block; }
+
+.nav-item-active {
+  background: linear-gradient(135deg, #FDF2F8 0%, #FFF7ED 100%);
+  border-left: 3px solid #F472B6;
+  color: #BE185D;
+}
+.nav-item-active svg { color: #F472B6; }
