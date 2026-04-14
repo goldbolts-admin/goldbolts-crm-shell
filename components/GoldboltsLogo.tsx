@@ -1,68 +1,83 @@
 'use client';
+import { useTheme } from './ThemeProvider';
 
-// GOLDBOL T S — T is gold with a diagonal dash above (⚡ effect)
-// Collapsed: gold T monogram only
-
-const GOLD = '#D4A017';
+// GOLDBOL + [T] + S — T is the bolt, gold, with flat bar above (🔩 side view)
+// Gradient text = glossy effect for both black letters and gold T
 
 export function GoldboltsLogo({ collapsed = false }: { collapsed?: boolean }) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
+  // Glossy black (light) / glossy silver-white (dark)
+  const letterGradient = isDark
+    ? 'linear-gradient(180deg, #FFFFFF 0%, #CBD5E1 50%, #94A3B8 100%)'
+    : 'linear-gradient(180deg, #555555 0%, #111111 35%, #000000 100%)';
+
+  // Glossy gold — same in both modes
+  const goldGradient = 'linear-gradient(180deg, #FFF2A0 0%, #FFD700 28%, #D4A017 62%, #8B6914 100%)';
+
+  // Bolt head bar gradient (horizontal shine)
+  const boltHeadGradient = 'linear-gradient(90deg, #8B6914 0%, #FFD700 40%, #FFF2A0 60%, #D4A017 80%, #8B6914 100%)';
+
+  const gradientText = {
+    background: letterGradient,
+    WebkitBackgroundClip: 'text' as const,
+    WebkitTextFillColor: 'transparent' as const,
+    backgroundClip: 'text' as const,
+  };
+
+  const goldText = {
+    background: goldGradient,
+    WebkitBackgroundClip: 'text' as const,
+    WebkitTextFillColor: 'transparent' as const,
+    backgroundClip: 'text' as const,
+  };
+
+  const baseStyle = {
+    fontFamily: "'Plus Jakarta Sans', sans-serif",
+    fontWeight: 800,
+    lineHeight: 1,
+    letterSpacing: '0.03em',
+  } as const;
+
   if (collapsed) {
     return (
       <div
-        className="relative flex items-center justify-center select-none"
-        style={{ width: 32, height: 32 }}
+        className="relative flex items-center justify-center select-none mx-auto"
+        style={{ width: 28, height: 28 }}
         aria-label="Goldbolts"
       >
-        <span
-          style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-            fontWeight: 800,
-            fontSize: 22,
-            lineHeight: 1,
-            color: GOLD,
-            letterSpacing: '-0.02em',
-          }}
-        >
-          T
-        </span>
-        {/* Bolt head — wider flat bar above the T crossbar */}
+        {/* Bolt head — wider flat bar above T */}
         <span
           aria-hidden
           style={{
             position: 'absolute',
-            top: 3,
+            top: 1,
             left: '50%',
             transform: 'translateX(-50%)',
-            width: 20,
+            width: 18,
             height: 3,
-            background: GOLD,
+            background: boltHeadGradient,
             borderRadius: 1,
           }}
         />
+        <span style={{ ...baseStyle, fontSize: 20, ...goldText }}>T</span>
       </div>
     );
   }
 
   return (
-    <span
-      className="select-none whitespace-nowrap leading-none"
-      style={{
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-        fontWeight: 800,
-        fontSize: 15,
-        letterSpacing: '0.06em',
-      }}
+    <div
+      className="flex items-center justify-center select-none"
       aria-label="Goldbolts"
+      style={{ ...baseStyle, fontSize: 14, display: 'inline-flex', alignItems: 'center' }}
     >
-      {/* GOLDBOLT */}
-      <span style={{ color: 'var(--sidebar-text-hover)' }}>GOLDBOLT</span>
+      {/* GOLDBOL */}
+      <span style={gradientText}>GOLDBOL</span>
 
-      {/* Gold T with dash above */}
-      <span
-        className="relative inline-block"
-        style={{ color: GOLD }}
-      >
-        {/* Bolt head — wider flat bar above the T crossbar, reads as 🔩 side view */}
+      {/* T — the bolt */}
+      <span className="relative inline-block" style={goldText}>
+        {/* Bolt head — flat bar above T crossbar */}
         <span
           aria-hidden
           style={{
@@ -70,9 +85,9 @@ export function GoldboltsLogo({ collapsed = false }: { collapsed?: boolean }) {
             top: -4,
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '130%',
-            height: 2.5,
-            background: GOLD,
+            width: '140%',
+            height: 2,
+            background: boltHeadGradient,
             borderRadius: 1,
             display: 'block',
           }}
@@ -81,7 +96,7 @@ export function GoldboltsLogo({ collapsed = false }: { collapsed?: boolean }) {
       </span>
 
       {/* S */}
-      <span style={{ color: 'var(--sidebar-text-hover)' }}>S</span>
-    </span>
+      <span style={gradientText}>S</span>
+    </div>
   );
 }

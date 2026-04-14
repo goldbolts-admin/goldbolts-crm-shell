@@ -72,17 +72,15 @@ function NavContent({
       className="flex flex-col h-full"
       style={{ background: 'var(--sidebar-bg)', borderRight: '1px solid var(--sidebar-border)' }}
     >
-      {/* Logo */}
+      {/* Logo — always centered, collapse button absolute right */}
       <div
-        className={clsx(
-          'flex items-center border-b flex-shrink-0',
-          collapsed ? 'px-3 py-4 justify-center' : 'px-4 py-4 justify-between'
-        )}
+        className="relative flex items-center justify-center border-b flex-shrink-0 px-3"
         style={{ borderColor: 'var(--sidebar-border)', minHeight: '60px' }}
       >
-        {!collapsed && <GoldboltsLogo collapsed={false} />}
-        {collapsed && <GoldboltsLogo collapsed={true} />}
-        <div className="flex items-center gap-1">
+        <GoldboltsLogo collapsed={collapsed} />
+
+        {/* Controls — absolute so they don't push logo off-center */}
+        <div className="absolute right-2 flex items-center gap-1">
           {onMobileClose && (
             <button
               onClick={onMobileClose}
