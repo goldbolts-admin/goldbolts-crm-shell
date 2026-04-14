@@ -9,6 +9,7 @@ import {
 import { logout, getUser } from '@/lib/auth';
 import clsx from 'clsx';
 import { useState } from 'react';
+import { GoldboltsLogo } from './GoldboltsLogo';
 
 const SECTIONS = [
   {
@@ -79,31 +80,8 @@ function NavContent({
         )}
         style={{ borderColor: 'var(--sidebar-border)', minHeight: '60px' }}
       >
-        {!collapsed && (
-          <div className="flex items-center gap-2.5 min-w-0">
-            <svg width={30} height={30} viewBox="0 0 48 48">
-              <defs>
-                <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#F9A8D4"/>
-                  <stop offset="100%" stopColor="#FB923C"/>
-                </linearGradient>
-              </defs>
-              <polygon points="24,2 43,12 43,36 24,46 5,36 5,12" fill="url(#sg)"/>
-              <path d="M28,10 L16,26 L22,26 L20,38 L32,22 L26,22 Z" fill="white"/>
-            </svg>
-            <span className="font-bold text-[15px] tracking-tight gb-gradient-text whitespace-nowrap">
-              Goldbolts CRM
-            </span>
-          </div>
-        )}
-        {collapsed && (
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center gb-gradient">
-            <svg width={16} height={16} viewBox="0 0 48 48">
-              <polygon points="24,2 43,12 43,36 24,46 5,36 5,12" fill="white" fillOpacity="0.3"/>
-              <path d="M28,10 L16,26 L22,26 L20,38 L32,22 L26,22 Z" fill="white"/>
-            </svg>
-          </div>
-        )}
+        {!collapsed && <GoldboltsLogo collapsed={false} />}
+        {collapsed && <GoldboltsLogo collapsed={true} />}
         <div className="flex items-center gap-1">
           {onMobileClose && (
             <button
