@@ -25,18 +25,18 @@ export function GoldboltsLogo({ collapsed = false }: { collapsed?: boolean }) {
         >
           T
         </span>
-        {/* Dash above — angled like a lightning bolt */}
+        {/* Bolt head — wider flat bar above the T crossbar */}
         <span
           aria-hidden
           style={{
             position: 'absolute',
             top: 3,
             left: '50%',
-            transform: 'translateX(-46%) rotate(-22deg)',
-            width: 16,
-            height: 2.5,
+            transform: 'translateX(-50%)',
+            width: 20,
+            height: 3,
             background: GOLD,
-            borderRadius: 2,
+            borderRadius: 1,
           }}
         />
       </div>
@@ -62,18 +62,18 @@ export function GoldboltsLogo({ collapsed = false }: { collapsed?: boolean }) {
         className="relative inline-block"
         style={{ color: GOLD }}
       >
-        {/* Diagonal dash — sits above the T crossbar, angled to read as ⚡ */}
+        {/* Bolt head — wider flat bar above the T crossbar, reads as 🔩 side view */}
         <span
           aria-hidden
           style={{
             position: 'absolute',
             top: -4,
             left: '50%',
-            transform: 'translateX(-50%) rotate(-22deg)',
-            width: '110%',
-            height: 2,
+            transform: 'translateX(-50%)',
+            width: '130%',
+            height: 2.5,
             background: GOLD,
-            borderRadius: 2,
+            borderRadius: 1,
             display: 'block',
           }}
         />
